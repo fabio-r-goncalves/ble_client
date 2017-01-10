@@ -14,20 +14,17 @@ public class Ibeacons {
         ibeaconHashMap = new HashMap<>();
     }
 
-    public void addIbeacon(Ibeacon ibeacon) throws IOException {
+    public void addIbeacon(Ibeacon ibeacon, double rssi) throws IOException {
         if (!ibeaconHashMap.containsKey(ibeacon.getMac())) {
+            ibeacon.addMeasure(rssi);
             ibeaconHashMap.put(ibeacon.getMac(), ibeacon);
-            ibeacon.getWriteToFile().writeData(ibeacon);
+
         } else {
             Ibeacon ibeacon1 = ibeaconHashMap.get(ibeacon.getMac());
-            if(ibeacon1.getCount() >= Vars.MAX_VALUES){
+            if(ibeacon1.getMeasures().size() >= Vars.MAX_VALUES){
                 return;
             }
-            ibeacon1.setDistance(ibeacon.getDistance());
-            ibeacon1.setPosition(ibeacon.getPosition());
-            ibeacon1.setRSSI(ibeacon.getRSSI());
-            ibeacon1.getWriteToFile().writeData(ibeacon1);
-            ibeacon1.increaseCount();
+            ibeacon1.addMeasure(rssi);
         }
     }
 
@@ -41,7 +38,7 @@ public class Ibeacons {
 
     public void addDevice(Device device, String antenna) throws IOException {
         Ibeacon ibeacon = new Ibeacon(device.getAddress(), device.getName(), device.getRSSI(), antenna);
-        addIbeacon(ibeacon);
+        addIbeacon(ibeacon, device.getRSSI());
     }
 
     public void setBeacons(String antenna) throws IOException {

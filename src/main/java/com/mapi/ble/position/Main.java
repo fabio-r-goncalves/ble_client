@@ -11,7 +11,7 @@ import java.net.Socket;
 
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        Socket socket = new Socket("localhost", 8080);
+        Socket socket = new Socket("192.168.1.73", 8080);
         System.out.println("connected");
         ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
         Antennas antennas = new Antennas();

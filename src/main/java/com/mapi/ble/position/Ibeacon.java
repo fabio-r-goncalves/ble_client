@@ -10,6 +10,7 @@ public class Ibeacon {
     private String mac;
     private String name;
     private ArrayList<Measure> measures;
+    private Position position;
 
     public Ibeacon(String mac, String name, double RSSI, String antenna) throws IOException {
         this.mac = mac;
@@ -21,12 +22,14 @@ public class Ibeacon {
         this.mac = mac;
         this.name = name;
         this.measures = new ArrayList<>();
+        this.position = position;
     }
 
     public Ibeacon(String mac, String name, Position position, double RSSI, double distance, String antenna) throws IOException {
         this.mac = mac;
         this.name = name;
         this.measures = new ArrayList<>();
+        this.position = position;
 
     }
 
@@ -55,12 +58,24 @@ public class Ibeacon {
         this.name = name;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setMeasures(ArrayList<Measure> measures) {
+        this.measures = measures;
+    }
 
     @Override
     public String toString() {
         return "Ibeacon{" +
                 "mac='" + mac + '\'' +
                 ", name='" + name + '\'' +
+                ", position=" + position +
                 '}';
     }
 }
